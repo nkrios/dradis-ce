@@ -57,6 +57,11 @@
         include_blank: false,
         label: 'Icon'
       %>
+
+      <div class='modal-footer'>
+        <%= f.submit 'Add', class: 'btn btn-primary' %>
+        <button class='btn' data-dismiss='modal' >Close</button>
+      </div>
     <% end %>
 
     <%# We can't use 'form_for' because 'list' isn't an attribute that exists
@@ -82,12 +87,12 @@
           ),
           include_blank: false) %>
       </div>
-    <% end %>
-  </div>
 
-  <div class="modal-footer">
-    <input type="submit" value="Add" class="modal_add_node_submit_btn btn btn-primary" />
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <div class='modal-footer'>
+        <%= submit_tag 'Add', class: 'btn btn-primary' %>
+        <button class='btn' data-dismiss='modal' >Close</button>
+      </div>
+    <% end %>
   </div>
 </div>
 

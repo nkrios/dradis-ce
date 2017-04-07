@@ -100,3 +100,10 @@
     color: #1857D2;
   }
 }
+
+#modal_add_branch_node,
+#modal_add_child_node {
+  .modal-footer {
+    margin: 15px -15px -15px;
+  }
+}
