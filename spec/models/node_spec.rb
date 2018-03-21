@@ -225,6 +225,7 @@ describe Node do
         reason: 'because',
         name: 'name',
         version: '1',
+        product: 'my_product',
       )
       expect(node.properties[:services].length).to eq 1
       expect(node.properties[:services][0]).to eq({
@@ -234,6 +235,7 @@ describe Node do
         reason: 'because',
         name: 'name',
         version: '1',
+        product: 'my_product',
       })
 
       # add another one with a different port & protocol:
@@ -245,6 +247,7 @@ describe Node do
         reason: 'porque',
         name: 'nombre',
         version: '2.1',
+        product: 'producto',
       )
       expect(node.properties[:services].length).to eq 2
       expect(node.properties[:services][1]).to eq(
@@ -254,6 +257,7 @@ describe Node do
         reason: 'porque',
         name: 'nombre',
         version: '2.1',
+        product: 'producto',
         # (source is ignored if there are no extras)
       )
     end
@@ -271,6 +275,7 @@ describe Node do
         reason: 'because',
         name: 'nombre',
         version: '1',
+        product: 'my_product',
       )
       expect(node.properties[:services].length).to eq 1
       # It overrides the existing details:
@@ -281,6 +286,7 @@ describe Node do
         reason: 'because',
         name: 'nombre',
         version: '1',
+        product: 'my_product',
       )
     end
 
@@ -293,6 +299,7 @@ describe Node do
         reason: 'because',
         name: 'name',
         version: '1',
+        product: 'my_product',
       )
       expect(node.properties[:service_extras]).to be nil
     end
@@ -306,6 +313,7 @@ describe Node do
         reason: 'because',
         name: 'name',
         version: '1',
+        product: 'my_product',
         foo: 'bar',
         fizz: 'buzz',
         uno: 'dos',
@@ -329,6 +337,7 @@ describe Node do
         reason: 'because',
         name: 'name',
         version: '1',
+        product: 'my_product',
         foo: 'bar', # existing key, different source
         qwer: 'tyui', # keys we haven't seen before
         sadf: 'ghjk',
