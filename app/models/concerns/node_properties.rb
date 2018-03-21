@@ -18,10 +18,17 @@ module NodeProperties
     end
   end
 
+  SERVICE_KEYS = %i[port protocol state product reason name version]
+
   # -------------------------------------------- Individual property management
   # Sets a property, storing value as Array when needed
   # and taking care of duplications
   def set_property(key, value)
+    if key == :services # let's get defensive
+      msg = "don't use set_property for :services, use set_service instead"
+      raise ArgumentError, msg
+    end
+
     current_value = self.properties[key]
 
     # Even though we're serializing JSONWithIndifferentAccess, and the
@@ -47,6 +54,30 @@ module NodeProperties
 
   def has_any_property?
     self.properties.keys.any?{ |p| self.properties[p].present? }
+  end
+
+  # -------------------------------------------- Individual property management
+  def set_service(data)
+    port     = data.fetch(:port)
+    protocol = data.fetch(:protocol)
+
+    core  = data.slice(*SERVICE_KEYS)
+    extra = data.except(*SERVICE_KEYS)
+
+    self.properties[:services] ||= []
+    this_service = self.properties[:services].find do |service|
+      service[:port] == port && service[:protocol] == protocol
+    end
+
+    if this_service.nil?
+      self.properties[:services].push(core)
+    else
+      # the variable 'this_service' is a reference, so updating it like this
+      # will update the entry in original properties[:services] array
+      this_service.merge!(core)
+    end
+
+    # TODO - add 'service_extras'
   end
 
 

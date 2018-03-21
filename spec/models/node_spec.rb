@@ -261,7 +261,7 @@ describe Node do
         # (source is ignored if there are no extras)
       )
     end
-    
+
     example 'when a service is already present with this port & protocol' do
       # minimum args required = port, protocol, service
       node.set_service(port: '22', protocol: 'tcp', source: 'my_plugin')
