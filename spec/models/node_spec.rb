@@ -200,9 +200,13 @@ describe Node do
       expect(node.properties[:test_property]).to eq(80)
     end
 
-    it 'raises if you try to set :services' do
+    it 'raises if you try to set :services or service_extras' do
       expect do
-        node.set_property(:services, port: '22', protocol: 'tcp', source: 'nessus')
+        node.set_property(:services, [{port: '22', protocol: 'tcp'}])
+      end.to raise_error(ArgumentError, /set_service/)
+
+      expect do
+        node.set_property(:service_extras, { 'tcp/22' => {} })
       end.to raise_error(ArgumentError, /set_service/)
     end
   end
@@ -304,7 +308,7 @@ describe Node do
       expect(node.properties[:service_extras]).to be nil
     end
 
-    example 'service with extra info' do
+    example 'service with extra info - same port/protocol' do
       node.set_service(
         port: '22',
         protocol: 'tcp',
@@ -340,7 +344,7 @@ describe Node do
         product: 'my_product',
         foo: 'bar', # existing key, different source
         qwer: 'tyui', # keys we haven't seen before
-        sadf: 'ghjk',
+        asdf: 'ghjk',
       )
 
       # doesn't add a new service, or a new key to service_extras:
@@ -352,9 +356,50 @@ describe Node do
           { source: 'plugin', id: 'foo', output: 'bar' },
           { source: 'plugin', id: 'fizz', output: 'buzz' },
           { source: 'plugin', id: 'uno', output: 'dos' },
-          { source: 'other_plugin', id: 'foo', output: 'bar' },
-          { source: 'other_plugin', id: 'qwer', output: 'tyui' },
-          { source: 'other_plugin', id: 'asdf', output: 'ghjk' },
+          { source: 'other_source', id: 'foo', output: 'bar' },
+          { source: 'other_source', id: 'qwer', output: 'tyui' },
+          { source: 'other_source', id: 'asdf', output: 'ghjk' },
+        ]
+      )
+    end
+
+    example 'service with extra info - different port/protocol' do
+      node.set_service(
+        port: '22',
+        protocol: 'tcp',
+        source: 'plugin',
+        state: 'open',
+        reason: 'because',
+        name: 'name',
+        version: '1',
+        product: 'my_product',
+        foo: 'bar',
+        fizz: 'buzz',
+        uno: 'dos',
+      )
+
+      expect(node.properties[:service_extras].keys).to eq ['tcp/22']
+
+      node.set_service(
+        port: '443',
+        protocol: 'https',
+        source: 'plugin',
+        state: 'open',
+        reason: 'because',
+        name: 'name',
+        version: '1',
+        product: 'my_product',
+        foo: 'bar',
+        fizz: 'buzz',
+        uno: 'dos',
+      )
+
+      expect(node.properties[:service_extras].keys).to eq ['tcp/22', 'https/443']
+      expect(node.properties[:service_extras]['https/443']).to eq(
+        [
+          { source: 'plugin', id: 'foo', output: 'bar' },
+          { source: 'plugin', id: 'fizz', output: 'buzz' },
+          { source: 'plugin', id: 'uno', output: 'dos' },
         ]
       )
     end

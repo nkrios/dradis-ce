@@ -24,9 +24,9 @@ module NodeProperties
   # Sets a property, storing value as Array when needed
   # and taking care of duplications
   def set_property(key, value)
-    if key == :services # let's get defensive
-      msg = "don't use set_property for :services, use set_service instead"
-      raise ArgumentError, msg
+    if [:services, :service_extras].include?(key) # let's get defensive
+      raise ArgumentError, "don't use set_property for :services or "\
+                           ":service_extras, use set_service instead"
     end
 
     current_value = self.properties[key]
@@ -57,9 +57,21 @@ module NodeProperties
   end
 
   # -------------------------------------------- Individual property management
+
+  # data = a hash of options. must have keys port, protocol, and source (the
+  # name of the plugin e.g. 'nmap'.)
+  #
+  # The following properties, if present, will be saved as information about
+  # the services under the `services` key on properties: port, protocol, state,
+  # product, reason, name, version.
+  #
+  # Anything else will be saved under the `service_extras` key
   def set_service(data)
+    data.symbolize_keys!
     port     = data.fetch(:port)
     protocol = data.fetch(:protocol)
+    source   = data.fetch(:source)
+    data.delete(:source)
 
     core  = data.slice(*SERVICE_KEYS)
     extra = data.except(*SERVICE_KEYS)
@@ -77,7 +89,15 @@ module NodeProperties
       this_service.merge!(core)
     end
 
-    # TODO - add 'service_extras'
+    if extra.any?
+      self.properties[:service_extras] ||= {}
+      self.properties[:service_extras]["#{protocol}/#{port}"] ||= []
+      extra.each do |k, v|
+        self.properties[:service_extras]["#{protocol}/#{port}"].push(
+          source: source, id: k.to_s, output: v
+        )
+      end
+    end
   end
 
 
