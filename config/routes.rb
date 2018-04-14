@@ -98,5 +98,14 @@ Rails.application.routes.draw do
   post '/upload/parse'  => 'upload#parse'
   get  '/upload/status' => 'upload#status'
 
+  # -------------------------------------------------------------- Setup helper
+  get '/setup/complete'  => 'setup#complete'
+  get '/setup/next_step' => 'setup#next_step'
+
+  # Steps
+  get '/setup/testing_methodology' => 'setup#testing_methodology'
+  get '/setup/scope'               => 'setup#scope'
+  get '/setup/upload'              => 'setup#upload'
+
   root to: 'home#index'
 end
