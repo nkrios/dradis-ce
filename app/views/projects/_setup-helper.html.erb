@@ -1,0 +1,14 @@
+<div class="setup-helper" data-behaviour="setup-helper">
+  <div class="setup-helper__bubble">
+    <div class="setup-helper__content">
+      <h3>
+        Would you like some help setting up this project?
+      </h3>
+      <div class="setup-helper__buttons">
+        <%= link_to 'Yes, help out', setup_next_step_path, class: 'btn btn-large' %>
+        <%= link_to 'No thanks', setup_complete_path, class: 'btn btn-large btn-primary' %>
+      </div>
+    </div>
+  </div>
+  <%= image_tag 'logo_small.png', class: 'setup-helper__logo', size: '200x200' %>
+</div>
