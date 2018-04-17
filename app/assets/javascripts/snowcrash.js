@@ -34,6 +34,7 @@
 
 //= require snowcrash/pages/methodologies
 //= require snowcrash/pages/nodes/tables
-//= require snowcrash/pages/projects/methodologies_chart
 //= require snowcrash/pages/projects/issues_chart
+//= require snowcrash/pages/projects/methodologies_chart
+//= require snowcrash/pages/projects/setup_helper
 //= require snowcrash/pages/revisions
