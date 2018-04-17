@@ -1,0 +1,15 @@
+<% content_for :title, 'Guided Setup: Step 2 of 3' %>
+
+<section class="setup__step">
+
+  <%= image_tag 'logo_tiny.png' %>
+
+  <div class="setup__ballon">
+    <h2>Next, do you have a list of hosts in scope for this assessment?</h2>
+
+    <div class="setup__buttons">
+      <%= link_to 'Yes I do', '', class: 'btn btn-large' %>
+      <%= link_to 'Not now', setup_next_step_path,  class: 'btn btn-large btn-primary' %>
+    </div>
+  </div>
+</section>
