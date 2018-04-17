@@ -1,13 +1,30 @@
 <div class="setup-helper" data-behaviour="setup-helper">
   <div class="setup-helper__bubble">
     <div class="setup-helper__content">
-      <h3>
-        Would you like some help setting up this project?
-      </h3>
-      <div class="setup-helper__buttons">
-        <%= link_to 'Yes, help out', setup_next_step_path, class: 'btn btn-large' %>
-        <%= link_to 'No thanks', setup_complete_path, class: 'btn btn-large btn-primary' %>
-      </div>
+      <% if flash[:show_completed] %>
+        <h3>You’re off to a great start!</h3>
+        <p>You’ll see everything you added in the links on the left sidebar.</p>
+        <div class="setup-helper__buttons">
+          <button data-behaviour="dismiss_setup_helper" class="btn btn-large">Got It!</button>
+        </div>
+      <% else %>
+        <h3>
+          <% if SetupWizard.next_step == SetupWizard::STEPS.first %>
+          Would you like some help setting up this project?
+          <% else %>
+          You’re still in the setup process. Want to pick up where you left off?
+          <% end %>
+        </h3>
+        <div class="setup-helper__buttons">
+          <% if SetupWizard.next_step == SetupWizard::STEPS.first %>
+            <%= link_to 'Yes, help out', setup_next_step_path, class: 'btn btn-large' %>
+            <%= link_to 'No thanks', setup_complete_path(show_completed: false), class: 'btn btn-large btn-primary' %>
+          <% else %>
+            <%= link_to 'Yes, let’s finish!', setup_next_step_path, class: 'btn btn-large' %>
+            <%= link_to 'No thanks', setup_complete_path(show_completed: true), class: 'btn btn-large btn-primary' %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
   <%= image_tag 'logo_small.png', class: 'setup-helper__logo', size: '200x200' %>

@@ -1,6 +1,6 @@
 <% content_for :title, 'Project summary' %>
 
-<%= render partial: 'projects/setup-helper' %>
+<%= render(partial: 'projects/setup-helper') if @setup_show %>
 
 <div class="row-fluid">
   <div class="span6">

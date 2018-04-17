@@ -1,4 +1,5 @@
 class ProjectsController < AuthenticatedController
+  before_action :show_setup_helper?
   helper :snowcrash
   layout 'snowcrash'
 
@@ -29,5 +30,11 @@ class ProjectsController < AuthenticatedController
         end
       end
     end
+  end
+
+  private
+  def show_setup_helper?
+    @setup_show = SetupWizard.show? || flash[:show_completed]
+    @setup_step = SetupWizard.next_step
   end
 end
