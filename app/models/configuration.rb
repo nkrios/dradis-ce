@@ -55,5 +55,19 @@ class Configuration < ApplicationRecord
       .find_or_create_by(name: 'admin:plugins:uploads_node').value
   end
 
+  # ------------------------------------------------------------- project:setup
+
+  # This setting is used by the plugins as the root of all the content the add.
+  def self.setup_show
+    create_with(value: 'true')
+      .find_or_create_by(name: 'project:setup:show')
+  end
+
+  # Retrieve the name of the Node used to associate file uploads.
+  def self.setup_next_step
+    create_with(value: SetupWizard::STEPS.first)
+      .find_or_create_by(name: 'project:setup:next_step')
+  end
+
   # -- Instance Methods -----------------------------------------------------
 end
