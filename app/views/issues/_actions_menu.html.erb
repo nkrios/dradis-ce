@@ -22,6 +22,23 @@
       <% end %>
     </li>
 
+    <li class="divider"></li>
+    <li>
+      <% if false %>
+        <%= link_to issue_subscriptions_path(@issue),
+              method: :post do %>
+          <i class="fa fa-bell"></i> Subscribe
+        <% end %>
+      <% else %>
+        <%= link_to issue_subscriptions_path(@issue),
+              method: :delete do %>
+          <span class="text-error">
+            <i class="fa fa-bell-slash"></i> Unsubscribe
+          </span>
+        <% end %>
+      <% end %>
+    </li>
+
     <% sync_plugins = Dradis::Plugins::with_feature(:issue_sync) %>
     <% if sync_plugins.any? %>
     <li class="divider"></li>
