@@ -102,10 +102,8 @@ gem 'rails-html-sanitizer', '~> 1.0.4'
 # SQLite3 DB driver
 gem 'sqlite3'#,  '1.3.10'
 
-# Use Unicorn as the web server
-gem 'unicorn',  '4.9.0'
-# Make 'rails server' run unicorn by default:
-gem 'unicorn-rails'
+# Use Puma as the web server
+gem 'puma'
 
 # --------------------------------------------------------- Dradis Professional
 # Authorisation
